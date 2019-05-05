@@ -31,13 +31,9 @@ VR环境下的折纸模拟和交互可以提供更直观的方式来编辑折痕
 ### 3. 创新点：
 
 - 支持不同材质的纸张的折叠效果（不同的shader和约束参数）
-
 - 支持按步骤折叠，生成每一步的折叠效果
-
 - 支持折纸成品的动画
-
 - 尝试对外部输入的折纸Pattern进行建模并支持折纸过程
-
 - 实现折叠过程中纸张受力和法向量变化的可视化
 
   
@@ -211,14 +207,6 @@ void CSMain (uint3 dtid : SV_DispatchThreadID)
     res[dtid.xy] = float4(1,0,0,1);
 }
 ```
-
-作者：陈嘉栋
-
-链接：https://www.jianshu.com/p/1565fd0c4f1d
-
-来源：简书
-
-简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
 
 和一般的shader不同，compute shader和图形无关，因此在使用compute shader时不会涉及到mesh、material这些内容。相反，compute shader的设置和执行要在c#脚本中进行。
 
