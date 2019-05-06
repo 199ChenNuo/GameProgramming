@@ -224,6 +224,28 @@ void CSMain (uint3 dtid : SV_DispatchThreadID)
 
 ## 四、 组内暂定分工
 
-VR
+### 1.Mesh构建
 
-折纸物理引擎
+>  基础的纸张建模——从Pattern离散为三角面片
+
+在unity中实现将一张只有mountain crease和valley crease的纸张构建成由mesh组成的平面（需要通过计算加入facet crease）。
+
+### 2. GPU中的计算
+
+> 掌握GPU计算数据的方法，基础的折痕、顶点建模
+
+为折痕、折痕顶点建立基础模型并代码实现。
+
+编写一个基础的用于GPU计算的shader，能够通过GPU并行计算出简单的结果。（例如每一帧让每个node向上移动1个单位）
+
+### 3. Constraints公式及代码
+
+> 根据偏导数公式，构建出求解代码
+
+根据论文中的几个关键公式，利用forward Euler或者Verlet积分方法，编写计算node速度与位置的代码，并放入上一步的GPU shader中进行计算。
+
+### 4. VR交互
+
+> 完善交互方法设计，完成基础VR交互
+
+探索合适的交互方式，并为了完成友好的交互方式尝试先进的VR方法。
