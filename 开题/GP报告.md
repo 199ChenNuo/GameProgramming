@@ -10,7 +10,7 @@ VR环境下的折纸模拟和交互可以提供更直观的方式来编辑折痕
 
 我们的工作旨在创建一个快速、交互式的VR模拟环境，能够支持用户基于一张有折痕的纸，参照提示进行折叠，完成完成具有真实感的、符合几何约束和现实情况的折纸作品。
 
-
+![](assets/crane.gif)
 
 ## 二、预期实现目标
 
@@ -41,6 +41,10 @@ VR环境下的折纸模拟和交互可以提供更直观的方式来编辑折痕
 ## 三、 预计使用的技术
 
 ### 1. 搭建VR交互环境
+
+![](assets/huffmanvr.jpg)
+
+我们打算利用VRTK插件编程，最终在HTC Vive和Oculus VR Headset和控制器上运行我们的应用程序。在此模式下，用户可以用双手对纸张进行抓取和折叠，并在沉浸式3D环境中查看每一步的折叠结果，从而带给用户真实的折纸体验。
 
 ### 2. 实现纸张的物理模拟
 
@@ -190,6 +194,8 @@ CPU的结构复杂，主要完成逻辑控制和缓存功能，运算单元较�
 
 ![](assets/GPU.png)
 
+#### 3.1 Compute Shader
+
 和常见的vertex shader和fragment shader类似，要在GPU运行我们自己设定的逻辑也需要通过shader，不过和传统的shader的不同之处在于，compute shader并非传统的渲染流水线中的一个阶段，相反它主要用来计算原本由CPU处理的通用计算任务，这些通用计算常常与图形处理没有任何关系，因此这种方式也被称为**GPGPU**（General-purpose computing on graphics processing units，图形处理器通用计算）。
 
 根据[Unity - Manual: Compute shaders](https://docs.unity3d.com/Manual/class-ComputeShader.html) ，可以使用后缀为`.compute`的assets来编写compute shader，一个示例如下：
@@ -210,7 +216,7 @@ void CSMain (uint3 dtid : SV_DispatchThreadID)
 
 和一般的shader不同，compute shader和图形无关，因此在使用compute shader时不会涉及到mesh、material这些内容。相反，compute shader的设置和执行要在c#脚本中进行。
 
-```
+```c#
  this.kernelHandle = cshader.FindKernel("CSMain");
  ......
  cshader.SetBuffer(this.kernelHandle, "boidBuffer", buffer);
@@ -222,7 +228,18 @@ void CSMain (uint3 dtid : SV_DispatchThreadID)
 
 在c#脚本中准备、传送数据，分配线程组并执行compute shader，最后数据再从GPU传递回CPU。
 
-## 四、 组内暂定分工
+#### 3.2 GPU Instancing
+
+当需要在场景里绘制越来越多的物体时，主要涉及两个方面的性能瓶颈，一是cpu对gpu提交数据的次数（包括设置数据buffer，渲染状态以及调用对渲染原语的绘制即drawcall），二是gpu上的绘制（包括顶点处理和像素绘制），随着场景中物体数量的增多，cpu和gpu的压力都会上升
+
+Gpu Instance是一种用来提高渲染大量物体效率的技术，如果绘制1000个物体，它将一个模型的vbo提交一次给显卡，至于1000个物体不同的位置，状态，颜色等等将他们整合成一个per instance attribute的buffer给gpu，默认情况下，多个一样的模型会被动态批次合并优化掉
+
+在Unity5.6.2或者之后的版本中，只要材质球勾选Instancing，即自动开启并使用GPU Instancing：
+
+![](assets/1.png)
+
+四、 组内暂定分工
+--------------------- 
 
 VR
 
