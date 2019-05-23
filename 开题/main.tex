@@ -1,0 +1,78 @@
+\documentclass{ctexart}
+% Other classes are available too:
+% \documentclass{ctexrep}
+% \documentclass{ctexbook}
+% \documentclass{ctexbeamer}
+
+%% You can change the font if necessary.
+% \setCJKmainfont{BabelStone Han}
+\setCJKsansfont{Noto Sans CJK SC}
+\usepackage{geometry}   %设置页边距的宏包
+\usepackage{titlesec}   %设置页眉页脚的宏包
+
+\geometry{left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm} 
+
+\title{折纸仿真引擎\\\ \\ 开题报告}
+\author{
+罗宇辰 516030910101  \\\
+陈志扬 516030910347  \\\
+陈  诺 516030910199
+}
+\date{2019年5月4日}
+
+\clearpage
+\newpage
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+
+\begin{abstract}
+折纸不仅仅是一种有趣的游戏，其中也蕴含着许多知识，如几何、拓扑变换、微积分等。我们想要设计实现一个折纸仿真引擎，对纸张进行建模，并实现 VR 环境下的折纸模拟与交互。
+\end{abstract}
+
+\section{要实现的功能及预期效果}
+
+
+\section{关于数学部分}
+参考论文\cite{ref1}中的公式:
+\begin{equation}
+    \vec F_{crease} = - k_{crease} (\theta - \theta_{target}) \frac {\partial \theta}{\partial \vec p}
+\end{equation}
+
+\begin{equation}
+\vec F_{crease} = - k_{crease} (\theta - \theta_{target}) \frac {\partial \theta}{\partial \vec p}
+\end{equation}
+
+\begin{equation}
+\frac{\partial \theta}{\partial \vec p_1} = \frac{\vec n_1}{h_1}
+\end{equation}
+
+\begin{equation}
+\frac{\partial \theta}{\partial \vec p_2} = \frac{\vec n_2}{h_2}
+\end{equation}
+
+\begin{equation}
+\frac{\partial \theta}{\partial \vec p_3} = \frac{-cot \alpha_{4,31}}{cot \alpha_{3,14}+cot \alpha_{4,31}}\frac{\vec n_1}{h_1} + \frac{-cot \alpha_{4,23}}{cot \alpha_{3,42}+cot \alpha_{4,23}}\frac{\vec n_2}{h_2}
+\end{equation}
+
+\begin{equation}
+\frac{\partial \theta}{\partial \vec p_4} = \frac{-cot \alpha_{3,14}}{cot \alpha_{3,14}+cot \alpha_{4,31}}\frac{\vec n_1}{h_1} + \frac{-cot \alpha_{3,42}}{cot \alpha_{3,42}+cot \alpha_{4,23}}\frac{\vec n_2}{h_2}
+\end{equation}
+
+\begin{equation}
+    \Delta t < \frac{1}{2 \pi \omega_{max}}
+\end{equation}
+
+\begin{equation}
+    \omega = \sqrt{\frac{k_{axial}}{m_{min}}}
+\end{equation}
+
+\section{参考}
+\begin{thebibliography}{99}  
+\bibitem{ref1}Amanda Ghassaei, Erik D. Demaine, Neil Gershenfeld, Fast, Interactive Origami Simulation using GPU Computation, 2018.
+
+\end{thebibliography}
+
+\end{document}
