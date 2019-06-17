@@ -57,7 +57,7 @@ public class Node : MonoBehaviour
 
     public void updateF_axial()
     {
-        this.F_axial = new Vector3(0, 0, 0);
+        this.F_axial = Vector3.zero;
         for(int i=0; i<beams.Count; ++i)
         {
             Beam b = beams[i];
