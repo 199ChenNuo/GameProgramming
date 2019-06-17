@@ -7,11 +7,12 @@ public class Face : MonoBehaviour
     // ==============================================
     // attributes
     // ==============================================
+
     // index of this face
     public long index;
 
     // stiffness of face constraint
-    public double k_face = 0.2;
+    public float k_face = 0.2f;
 
     // nodes of this face
     //      normally, a face has 3 nodes
@@ -55,14 +56,15 @@ public class Face : MonoBehaviour
             //     p1: nodes[(i+2)%3].pos
             //     p2: nodes[i].pos
             //     p3: nodes[(i+1)%3].pos 
-         
+
             // f_face for p1
-            nodes[(i + 2) % 3].F_face += getAlphaODE1(n, nodes[(i + 2) % 3].position, nodes[i].position);
+            float k = -k_face * (alphas[i] - alpha_0s[i]);
+            nodes[(i + 2) % 3].F_face += k * getAlphaODE1(n, nodes[(i + 2) % 3].position, nodes[i].position);
             // f_face for p2
-            nodes[i].F_face += getAlphaODE2(n, nodes[(i + 2) % 3].position,
+            nodes[i].F_face += k * getAlphaODE2(n, nodes[(i + 2) % 3].position,
                                                                         nodes[i].position, nodes[(i + 1) % 3].position);
             // f_face for p3
-            nodes[(i + 1) % 3].F_face += getAlphaODE3(n, nodes[i].position, nodes[(i + 1) % 3].position);
+            nodes[(i + 1) % 3].F_face += k * getAlphaODE3(n, nodes[i].position, nodes[(i + 1) % 3].position);
         }
     }
 
@@ -90,7 +92,19 @@ public class Face : MonoBehaviour
             Vector3 n1 = nodes[i].position - nodes[(i + 2) % 3].position;
             // n2: p3 -> p2
             Vector3 n2 = nodes[i].position - nodes[(i + 1) % 3].position;
-            alpha_0s[i] = Vector3.Angle(n1, n2);
+
+            /*
+            Debug.Log("n1: " + n1.ToString());
+            Debug.Log("n2: " + n2.ToString());
+            Debug.Log("angle: " + Vector3.Angle(n1, n2));
+            */
+
+            alpha_0s.Add(Vector3.Angle(n1, n2));
+            alphas.Add(alpha_0s[i]);
+
+            /*
+            Debug.Log("alpha0_s: " + alpha_0s.ToString());
+            */
         }
     }
 
@@ -110,6 +124,7 @@ public class Face : MonoBehaviour
             Vector3 n1 = nodes[i].position - nodes[(i + 2) % 3].position;
             // n2: p3 -> p2
             Vector3 n2 = nodes[i].position - nodes[(i + 1) % 3].position;
+            // alpha[i]: angle from n1 point to n2
             alphas[i] = Vector3.Angle(n1, n2);
         }
     }

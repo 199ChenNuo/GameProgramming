@@ -66,6 +66,7 @@ public class Parser : MonoBehaviour
             face.AddNode(nodes[ids.x]);
             face.AddNode(nodes[ids.y]);
             face.AddNode(nodes[ids.z]);
+            face.SetAlpha_0();
 
             faces.Add(face);
         }
